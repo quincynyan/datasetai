@@ -3,7 +3,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 
 # Load the data into a pandas dataframe
-df = pd.read_csv('data.csv')
+df = pd.read_csv('test/data.csv')
 
 # Split the data into a training set and a test set
 X_train, X_test, y_train, y_test = train_test_split(
@@ -24,7 +24,7 @@ model.fit(X_train, y_train)
 score = model.score(X_test, y_test)
 print(f'Model score: {score:.2f}')
 
-pmf = pd.read_csv('predictme.csv')
+pmf = pd.read_csv('test/predictme.csv')
 # Use the model to make predictions on new data
 predictions = model.predict(pmf)
 

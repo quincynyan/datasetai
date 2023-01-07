@@ -1,31 +1,41 @@
-import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
 from sklearn.linear_model import LinearRegression
-from sklearn.model_selection import train_test_split
 
-# Load the data into a pandas dataframe
-df = pd.read_csv('data.csv')
+data =\
+    [
+        [0, 1],
+        [1, 8],
+        [2, 13],
+        [3, 16],
+        [4, 20],
+    ]
 
-# Split the data into a training set and a test set
-X_train, X_test, y_train, y_test = train_test_split(
-    df.iloc[:, :-1], df.iloc[:, -1], test_size=0.2, random_state=42)
+X = np.array(data)[:, 0].reshape(-1, 1)
+y = np.array(data)[:, 1].reshape(-1, 1)
+print("X=")
+print(X)
+print("y=")
+print(y)
 
-print("\nX_train: \n", X_train)
-print("\nX_test: \n", X_test)
-print("\ny_train: \n", y_train)
-print("\ny_test: \n", y_test)
+to_predict_x = [5, 6, 7]
+to_predict_x = np.array(to_predict_x).reshape(-1, 1)
 
-# Create a linear regression model
-model = LinearRegression()
+regsr = LinearRegression()
+regsr.fit(X, y)
 
-# Train the model using the training set
-model.fit(X_train, y_train)
+predicted_y = regsr.predict(to_predict_x)
+m = regsr.coef_
+c = regsr.intercept_
+print("Predicted y:\n", predicted_y)
+print("slope (m): ", m)
+print("y-intercept (c): ", c)
 
-# Evaluate the model using the test set
-score = model.score(X_test, y_test)
-print(f'Model score: {score:.2f}')
-
-pmf = pd.read_csv('predictme.csv')
-# Use the model to make predictions on new data
-predictions = model.predict(pmf)
-
-print("\nPredictions: \n", predictions)
+plt.title('Predict the next numbers in a given sequence')
+plt.xlabel('X')
+plt.ylabel('Numbers')
+plt.scatter(X, y, color="blue")
+new_y = [m*i+c for i in np.append(X, to_predict_x)]
+new_y = np.array(new_y).reshape(-1, 1)
+plt.plot(np.append(X, to_predict_x), new_y, color="red")
+plt.show()
